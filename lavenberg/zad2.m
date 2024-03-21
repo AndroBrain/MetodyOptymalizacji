@@ -5,15 +5,14 @@ clc
 
 load("LM04Data")
 k_max = 25;
-a = 2;
-h = @(x,t) x(1)*exp(-t * a).*sin(x(2)*t+x(3));
-f = @(x) x(1) *exp(-t * a).*sin(x(2)*t+x(3))-y;
+h = @(x,t) x(1)*exp(-t * x(4)).*sin(x(2)*t+x(3));
+f = @(x) x(1) *exp(-t * x(4)).*sin(x(2)*t+x(3))-y;
 
-x0 = [1, 7*pi, 0]; % initial values of model parameters
+x0 = [1, 7*pi, 0, 0]; % initial values of model parameters
 n = length(x0);
 
 
-J = @(x) [sin(x(2)*t+x(3)) x(1)*t.*cos(x(2)*t+x(3)) x(1)*cos(x(2)*t+x(3))];
+J = @(x) [exp(-t*x(4)).*sin(x(2)*t+x(3)) exp(-t*x(4))*x(1).*t.*cos(x(2)*t+x(3)) exp(-t*x(4)).*x(1).*cos(x(2)*t+x(3)) -exp(-t*x(4)).*t.*x(1).*sin(x(2)*t+x(3))];
 
 % Lavenberg-Matquardt Algorithm
 X = zeros(n,k_max+1);
